@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<script>
+  if (!localStorage.getItem('adminLoggedIn')) {
+    window.location.href = 'login.html';
+  }
+</script>
+
+<body>
+
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+
+    <!-- QUEUE -->
+    <div class="card">
+      <h2>Order Queue (FIFO)</h2>
+      <button onclick="loadQueue()">Refresh Queue</button>
+      <ul id="queueList"></ul>
+    </div>
+
+    <br />
+
+    <!-- PROCESS -->
+    <div class="card">
+      <h2>Process Order</h2>
+      <button onclick="processOrder()">Process Next Order</button>
+      <p id="processResult"></p>
+    </div>
+
+    <br />
+
+    <!-- HISTORY -->
+    <div class="card">
+      <h2>Order History (Stack - LIFO)</h2>
+      <button onclick="loadHistory()">Load History</button>
+      <ul id="historyList"></ul>
+    </div>
+
+    <br />
+
+    <!-- SORTING -->
+    <div class="card">
+      <h2>Sorting Orders (by Price)</h2>
+      <button onclick="loadSorted()">Sort Orders</button>
+      <ul id="sortedList"></ul>
+    </div>
+
+    <br />
+
+    <!-- SEARCHING -->
+    <div class="card">
+      <h2>Search Order</h2>
+      <input type="number" id="searchId" placeholder="Order ID" />
+      <button onclick="searchOrder()">Search</button>
+      <pre id="searchResult"></pre>
+    </div>
+
+    <button onclick="logout()">Logout</button>
+
+  </div>
+
+  <script>
+    const API = 'http://localhost:3000';
+
+    function logout() {
+      localStorage.removeItem('adminLoggedIn');
+      window.location.href = 'login.html';
+    }
+
+    // QUEUE
+    async function loadQueue() {
+      const res = await fetch(`${API}/api/queue`);
+      const data = await res.json();
+      const list = document.getElementById('queueList');
+      list.innerHTML = '';
+
+      if (data.length === 0) {
+        list.innerHTML = '<li>No orders in queue</li>';
+        return;
+      }
+
+      data.forEach(o => {
+        const li = document.createElement('li');
+        li.textContent = `#${o.order_id} | ${o.ml_id} | ${o.diamond} diamonds`;
+        list.appendChild(li);
+      });
+    }
+
+    // DEQUEUE
+    async function processOrder() {
+      const res = await fetch(`${API}/api/admin/process`, {
+        method: 'POST'
+      });
+      const data = await res.json();
+      document.getElementById('processResult').textContent = data.message;
+      loadQueue();
+      loadHistory();
+    }
+
+    // STACK
+    async function loadHistory() {
+      const res = await fetch(`${API}/api/history`);
+      const data = await res.json();
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+
+      if (data.length === 0) {
+        list.innerHTML = '<li>No history yet</li>';
+        return;
+      }
+
+      data.slice().reverse().forEach(o => {
+        const li = document.createElement('li');
+        li.textContent = `#${o.order_id} | ${o.ml_id} | ${o.diamond} diamonds`;
+        list.appendChild(li);
+      });
+    }
+
+    // SORTING
+    async function loadSorted() {
+      const res = await fetch(`${API}/api/admin/orders/sort/price`);
+      const data = await res.json();
+      const list = document.getElementById('sortedList');
+      list.innerHTML = '';
+
+      data.forEach(o => {
+        const li = document.createElement('li');
+        li.textContent = `#${o.order_id} | ${o.price}`;
+        list.appendChild(li);
+      });
+    }
+
+    // SEARCHING
+    async function searchOrder() {
+      const id = document.getElementById('searchId').value;
+      if (!id) return;
+
+      const res = await fetch(`${API}/api/admin/orders/search/${id}`);
+      const data = await res.json();
+      document.getElementById('searchResult').textContent =
+        JSON.stringify(data, null, 2);
+    }
+  </script>
+
+</body>
+</html>

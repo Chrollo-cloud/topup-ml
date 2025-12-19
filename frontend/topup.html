@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Top Up ML</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+      <h2>Top Up Mobile Legends</h2>
+
+      <form id="topupForm">
+
+        <label>ML User ID</label>
+        <input type="text" id="ml_id" required />
+
+        <label>Server</label>
+        <input type="text" id="server" required />
+
+        <label>Diamond</label>
+        <select id="diamond">
+          <option value="86">86 Diamonds</option>
+          <option value="172">172 Diamonds</option>
+          <option value="257">257 Diamonds</option>
+        </select>
+
+        <label>Price</label>
+        <input type="number" id="price" value="20000" readonly />
+
+        <br /><br />
+        <button type="submit">Buy Now</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const diamondSelect = document.getElementById('diamond');
+    const priceInput = document.getElementById('price');
+
+    diamondSelect.addEventListener('change', () => {
+      const prices = {
+        86: 20000,
+        172: 40000,
+        257: 60000
+      };
+      priceInput.value = prices[diamondSelect.value];
+    });
+
+    const form = document.getElementById('topupForm');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        ml_id: document.getElementById('ml_id').value,
+        server: document.getElementById('server').value,
+        diamond: parseInt(diamondSelect.value),
+        price: parseInt(priceInput.value)
+      };
+
+      const response = await fetch('http://localhost:3000/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        window.location.href = 'success.html';
+      } else {
+        alert('Order gagal');
+      }
+    });
+  </script>
+
+</body>
+</html>

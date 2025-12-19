@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+      <h2>Admin Login</h2>
+
+      <form id="loginForm">
+        <label>Username</label>
+        <input type="text" id="username" required />
+
+        <label>Password</label>
+        <input type="password" id="password" required />
+
+        <br /><br />
+        <button type="submit">Login</button>
+      </form>
+
+      <p id="error" style="color:red;"></p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const errorText = document.getElementById('error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
+      };
+
+      const res = await fetch('http://localhost:3000/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        // simpan login sederhana
+        localStorage.setItem('adminLoggedIn', 'true');
+        window.location.href = 'admin.html';
+      } else {
+        errorText.textContent = result.message;
+      }
+    });
+  </script>
+
+</body>
+</html>
