@@ -12,17 +12,22 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <h2 class="sidebar-title">Admin</h2>
-    <nav>
-      <a href="#">Dashboard</a>
-      <a href="#">Orders</a>
-      <a href="#">Queue</a>
-      <a href="#" id="logoutBtn">Logout</a>
-    </nav>
+   <nav>
+  <a href="#" onclick="showSection('dashboardSection')">Dashboard</a>
+  <a href="#" onclick="showSection('queueSection')">Order Queue</a>
+  <a href="#" onclick="showSection('processSection')">Process Order</a>
+  <a href="#" onclick="showSection('historySection')">Order History</a>
+  <a href="#" onclick="showSection('sortingSection')">Sorting</a>
+  <a href="#" onclick="showSection('searchSection')">Search</a>
+  <a href="#" class="logout-btn" onclick="logout()">Logout</a>
+</nav>
+
+
   </aside>
 
   <!-- MAIN -->
   <main class="main-content">
-
+    
     <!-- HEADER -->
     <header class="header">
       <h1>Dashboard</h1>
@@ -30,25 +35,26 @@
     </header>
 
     <!-- SUMMARY -->
-    <section class="summary">
-      <div class="summary-card">
-        <h3>Total Orders</h3>
-        <strong>--</strong>
-      </div>
-      <div class="summary-card">
-        <h3>Pending</h3>
-        <strong>--</strong>
-      </div>
-      <div class="summary-card">
-        <h3>Completed</h3>
-        <strong>--</strong>
-      </div>
-    </section>
+  <div id="dashboardSection" class="ds-section active">
+  <div class="summary">
+    <div class="summary-card">
+      <h3>Total Orders</h3>
+      <strong>--</strong>
+    </div>
+    <div class="summary-card">
+      <h3>Pending</h3>
+      <strong>--</strong>
+    </div>
+    <div class="summary-card">
+      <h3>Completed</h3>
+      <strong>--</strong>
+    </div>
+  </div>
+</div>
+
 
     <!-- CONTENT -->
     <section class="content">
-      <h2>Order Queue</h2>
-
       <table>
         <thead>
           <tr>
@@ -62,50 +68,64 @@
         <tbody id="orderTable">
 
     <!-- QUEUE -->
-    <div class="card">
-      <h2>Order Queue (FIFO)</h2>
-      <button onclick="loadQueue()">Refresh Queue</button>
-      <ul id="queueList"></ul>
-    </div>
+     <div id="queueSection" class="ds-section">
+  <div class="card">
+    <h2>Order Queue (FIFO)</h2>
+    <button onclick="loadQueue()">Refresh Queue</button>
+    <ul id="queueList"></ul>
+  </div>
+</div>
+
 
     <br />
 
     <!-- PROCESS -->
-    <div class="card">
-      <h2>Process Order</h2>
-      <button onclick="processOrder()">Process Next Order</button>
-      <p id="processResult"></p>
-    </div>
+     <div id="processSection" class="ds-section">
+  <div class="card">
+    <h2>Process Order</h2>
+    <button onclick="processOrder()">Process Next Order</button>
+    <p id="processResult"></p>
+  </div>
+</div>
+
 
     <br />
 
     <!-- HISTORY -->
-    <div class="card">
-      <h2>Order History (Stack - LIFO)</h2>
-      <button onclick="loadHistory()">Load History</button>
-      <ul id="historyList"></ul>
-    </div>
+     <div id="historySection" class="ds-section">
+  <div class="card">
+    <h2>Order History (Stack - LIFO)</h2>
+    <button onclick="loadHistory()">Load History</button>
+    <ul id="historyList"></ul>
+  </div>
+</div>
 
-    <br />
+
+    
 
     <!-- SORTING -->
-    <div class="card">
-      <h2>Sorting Orders (by Price)</h2>
-      <button onclick="loadSorted()">Sort Orders</button>
-      <ul id="sortedList"></ul>
-    </div>
+     <div id="sortingSection" class="ds-section">
+  <div class="card">
+    <h2>Sorting Orders</h2>
+    <button onclick="loadSorted()">Sort Orders</button>
+    <ul id="sortedList"></ul>
+  </div>
+</div>
 
     <br />
 
     <!-- SEARCHING -->
-    <div class="card">
-      <h2>Search Order</h2>
-      <input type="number" id="searchId" placeholder="Order ID" />
-      <button onclick="searchOrder()">Search</button>
-      <pre id="searchResult"></pre>
-    </div>
+     <div id="searchSection" class="ds-section">
+  <div class="card">
+    <h2>Search Order</h2>
+    <input type="number" id="searchId" placeholder="Order ID">
+    <button onclick="searchOrder()">Search</button>
+    <pre id="searchResult"></pre>
+  </div>
+</div>
 
-    <button onclick="logout()">Logout</button>
+
+    
 
   </div>
 
@@ -190,6 +210,13 @@
       document.getElementById('searchResult').textContent =
         JSON.stringify(data, null, 2);
     }
+
+    function showSection(sectionId) {
+    const sections = document.querySelectorAll('.ds-section');
+    sections.forEach(sec => sec.classList.remove('active'));
+
+    document.getElementById(sectionId).classList.add('active');
+  }
   </script>
 
 </body>

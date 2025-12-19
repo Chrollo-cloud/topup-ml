@@ -85,3 +85,25 @@ body {
   background: #020617;
   color: #93c5fd;
 }
+.ds-section {
+  display: none;
+}
+
+.ds-section.active {
+  display: block;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.logout-btn {
+  margin-top: auto;
+  color: #f87171;
+}
+
+.logout-btn:hover {
+  color: #ef4444;
+}
