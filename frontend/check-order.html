@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cek Pesanan</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <span class="brand">TopUp ML</span>
+    </div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="check-order.html">Cek Pesanan</a>
+      <a href="login.html">Login</a>
+    </div>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="container">
+    <div class="card" style="max-width:400px;margin:auto;">
+      <h2>Cek Pesanan</h2>
+      <p>Masukkan Order ID kamu</p>
+
+      <input type="number" id="orderId" placeholder="Order ID" />
+      <br /><br />
+      <button onclick="checkOrder()">Cek</button>
+
+      <div id="result" style="margin-top:20px;"></div>
+    </div>
+  </div>
+
+  <script>
+    async function checkOrder() {
+      const orderId = document.getElementById('orderId').value;
+      const resultDiv = document.getElementById('result');
+
+      if (!orderId) {
+        resultDiv.innerHTML = '<p style="color:red;">Masukkan Order ID</p>';
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:3000/api/orders/${orderId}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          resultDiv.innerHTML = `<p style="color:red;">${data.message}</p>`;
+          return;
+        }
+
+        resultDiv.innerHTML = `
+          <p><strong>Order ID:</strong> ${data.order_id}</p>
+          <p><strong>ML ID:</strong> ${data.ml_id}</p>
+          <p><strong>Diamond:</strong> ${data.diamond}</p>
+          <p><strong>Price:</strong> ${data.price}</p>
+          <p><strong>Status:</strong> 
+            <span style="color:${data.status === 'success' ? 'lightgreen' : 'orange'}">
+              ${data.status}
+            </span>
+          </p>
+        `;
+      } catch (err) {
+        resultDiv.innerHTML = '<p style="color:red;">Server error</p>';
+      }
+    }
+  </script>
+
+</body>
+</html>

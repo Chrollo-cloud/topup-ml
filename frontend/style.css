@@ -49,3 +49,75 @@ input, select {
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background-color: #020617;
+}
+
+.navbar a {
+  color: #e5e7eb;
+  text-decoration: none;
+  margin-left: 24px;
+  font-weight: 500;
+}
+
+.navbar a:hover {
+  color: #60a5fa;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: bold;
+  color: #60a5fa;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  height: calc(100vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #020617, #0f172a, #020617);
+}
+
+.hero-card {
+  background-color: #1e293b;
+  padding: 48px;
+  border-radius: 20px;
+  text-align: center;
+  width: 360px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.ml-logo {
+  width: 80px;
+  margin-bottom: 16px;
+}
+
+.hero-card h1 {
+  margin-bottom: 8px;
+}
+
+.hero-card p {
+  color: #9ca3af;
+  margin-bottom: 24px;
+}
+
+.primary-btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 999px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background-color: #1d4ed8;
+}
