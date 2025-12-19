@@ -1,21 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-    
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="admin.css">
 </head>
-<script>
-  if (!localStorage.getItem('adminLoggedIn')) {
-    window.location.href = 'login.html';
-  }
-</script>
-
 <body>
 
-  <div class="container">
-    <h1>Admin Dashboard</h1>
+<div class="admin-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2 class="sidebar-title">Admin</h2>
+    <nav>
+      <a href="#">Dashboard</a>
+      <a href="#">Orders</a>
+      <a href="#">Queue</a>
+      <a href="#" id="logoutBtn">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- HEADER -->
+    <header class="header">
+      <h1>Dashboard</h1>
+      <span>Welcome, Admin</span>
+    </header>
+
+    <!-- SUMMARY -->
+    <section class="summary">
+      <div class="summary-card">
+        <h3>Total Orders</h3>
+        <strong>--</strong>
+      </div>
+      <div class="summary-card">
+        <h3>Pending</h3>
+        <strong>--</strong>
+      </div>
+      <div class="summary-card">
+        <h3>Completed</h3>
+        <strong>--</strong>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="content">
+      <h2>Order Queue</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>ML ID</th>
+            <th>Server</th>
+            <th>Diamond</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="orderTable">
 
     <!-- QUEUE -->
     <div class="card">

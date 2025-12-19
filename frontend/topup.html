@@ -19,45 +19,89 @@
         <label>Server</label>
         <input type="text" id="server" required />
 
-        <label>Diamond</label>
-        <select id="diamond">
-          <option value="86">86 Diamonds</option>
-          <option value="172">172 Diamonds</option>
-          <option value="257">257 Diamonds</option>
-        </select>
+        <label>Pilih Nominal Diamond</label>
 
-        <label>Price</label>
-        <input type="number" id="price" value="20000" readonly />
+        <!-- 🔑 GRID WAJIB -->
+        <div class="diamond-grid">
 
-        <br /><br />
+          <div class="diamond-card" data-diamond="86" data-price="20000">
+            <img src="assets/diamond.png" class="diamond-icon" />
+            <strong>86 Diamond</strong>
+            <span>Rp 20.000</span>
+          </div>
+
+          <div class="diamond-card" data-diamond="172" data-price="40000">
+            <img src="assets/diamond.png" class="diamond-icon" />
+            <strong>172 Diamond</strong>
+            <span>Rp 40.000</span>
+          </div>
+
+          <div class="diamond-card" data-diamond="257" data-price="60000">
+            <img src="assets/diamond.png" class="diamond-icon" />
+            <strong>257 Diamond</strong>
+            <span>Rp 60.000</span>
+          </div>
+
+          <div class="diamond-card" data-diamond="500" data-price="110000">
+            <img src="assets/diamond.png" class="diamond-icon" />
+            <strong>500 Diamond</strong>
+            <span>Rp 110.000</span>
+          </div>
+
+          <div class="diamond-card" data-diamond="1000" data-price="210000">
+            <img src="assets/diamond.png" class="diamond-icon" />
+            <strong>1000 Diamond</strong>
+            <span>Rp 210.000</span>
+          </div>
+
+        </div>
+
+        <input type="hidden" id="diamond" />
+
+        <div class="price-box">
+          <span>Total Harga</span>
+          <strong id="priceDisplay">-</strong>
+        </div>
+
         <button type="submit">Buy Now</button>
       </form>
     </div>
   </div>
 
   <script>
-    const diamondSelect = document.getElementById('diamond');
-    const priceInput = document.getElementById('price');
+    let selectedDiamond = null;
+    let selectedPrice = null;
 
-    diamondSelect.addEventListener('change', () => {
-      const prices = {
-        86: 20000,
-        172: 40000,
-        257: 60000
-      };
-      priceInput.value = prices[diamondSelect.value];
+    const cards = document.querySelectorAll('.diamond-card');
+    const diamondInput = document.getElementById('diamond');
+    const priceDisplay = document.getElementById('priceDisplay');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        cards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+
+        selectedDiamond = parseInt(card.dataset.diamond);
+        selectedPrice = parseInt(card.dataset.price);
+
+        diamondInput.value = selectedDiamond;
+        priceDisplay.textContent = `Rp ${selectedPrice.toLocaleString()}`;
+      });
     });
 
-    const form = document.getElementById('topupForm');
-
-    form.addEventListener('submit', async (e) => {
+    document.getElementById('topupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      if (!selectedDiamond) {
+        alert('Pilih nominal diamond terlebih dahulu');
+        return;
+      }
 
       const data = {
         ml_id: document.getElementById('ml_id').value,
         server: document.getElementById('server').value,
-        diamond: parseInt(diamondSelect.value),
-        price: parseInt(priceInput.value)
+        diamond: selectedDiamond,
+        price: selectedPrice
       };
 
       const response = await fetch('http://localhost:3000/api/orders', {

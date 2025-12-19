@@ -121,3 +121,82 @@ input, select {
 .primary-btn:hover {
   background-color: #1d4ed8;
 }
+
+/* ===== DIAMOND GRID ===== */
+/* ===== DIAMOND GRID (FIX FINAL) ===== */
+.diamond-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 16px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .diamond-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .diamond-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== DIAMOND CARD ===== */
+.diamond-card {
+  background-color: #0f172a;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  /* KUNCI BIAR GRID RAPI */
+  width: 100%;
+  min-height: 150px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.diamond-card strong {
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+.diamond-card span {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* HOVER & ACTIVE */
+.diamond-card:hover {
+  border-color: #2563eb;
+}
+
+.diamond-card.active {
+  border-color: #2563eb;
+  background-color: #1e293b;
+}
+
+/* ICON */
+.diamond-icon {
+  width: 40px;
+  margin-bottom: 6px;
+  transition: transform 0.2s ease;
+}
+
+.diamond-card.active .diamond-icon {
+  transform: scale(1.15);
+}
+.topup-card {
+  max-width: 900px;
+  width: 100%;
+}
